@@ -1,0 +1,19 @@
+{
+  "name": "mentor-skills",
+  "version": "2.0.0",
+  "description": "Build personal AI mentor assistants from YouTube transcripts, blog posts, and podcasts. Three-phase pipeline: Research (discover content) → Sync (extract & save) → Ask (query the knowledge base).",
+  "author": {
+    "name": "UpClick Labs"
+  },
+  "repository": "https://github.com/upclicklabs/mentor-library",
+  "license": "MIT",
+  "keywords": ["mentors", "knowledge-base", "youtube", "transcripts", "notion", "ai-mentors"],
+  "commands": {
+    "claude": "commands/claude.md",
+    "hormozi": "commands/hormozi.md",
+    "ethan": "commands/ethan.md",
+    "chris": "commands/chris.md",
+    "sync-mentor": "commands/sync-mentor.md",
+    "research-mentor": "commands/research-mentor.md"
+  }
+}

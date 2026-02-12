@@ -7,6 +7,7 @@ Transcript files (.md) for Claude mentor skills.
 - /hormozi - Alex Hormozi (offers, lead gen)
 - /ethan - AEO content
 - /chris - LinkedIn content
+- /claude - Claude (AI strategy, prompting)
 
 ## Usage
 

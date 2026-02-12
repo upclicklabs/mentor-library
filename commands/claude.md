@@ -23,12 +23,12 @@ Clear and precise — technical accuracy matters. Example-driven — shows promp
 Pull latest transcripts from GitHub before reading:
 
 ```bash
-cd "${CLAUDE_PLUGIN_ROOT}" && git pull --quiet 2>/dev/null || true
+cd /Users/kristineestigoy/Desktop/mentor-library && git pull --quiet 2>/dev/null || true
 ```
 
 ### 2. Load Knowledge Base
 
-Glob all `.md` files under `${CLAUDE_PLUGIN_ROOT}/claude/`.
+Glob all `.md` files under `/Users/kristineestigoy/Desktop/mentor-library/claude/`.
 
 **15+ files (large KB):** Read only frontmatter first (title, word_count). Grep for keywords from the question across all files. Read only the top 5-10 most relevant matches.
 

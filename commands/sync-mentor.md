@@ -15,10 +15,10 @@ Process approved URLs from Notion: extract content, save as markdown, push to Gi
 
 ## Notion Database
 - **Database ID:** `3026ed85-e90a-814d-96e8-e35f0b8fae89`
-- **API Token:** Read `NOTION_API_TOKEN` from `~/.env` or from the environment
+- **API Token:** Read `NOTION_API_TOKEN` from `/Users/kristineestigoy/Desktop/Mentors Skills/.env`
 
 ## GitHub Repository
-- **Plugin root:** `${CLAUDE_PLUGIN_ROOT}`
+- **Local clone:** `/Users/kristineestigoy/Desktop/mentor-library`
 - **Remote:** `upclicklabs/mentor-library`
 
 ## Mentors
@@ -36,7 +36,7 @@ Process approved URLs from Notion: extract content, save as markdown, push to Gi
 ### 1. Sync Repo
 
 ```bash
-cd "${CLAUDE_PLUGIN_ROOT}" && git pull --quiet 2>/dev/null || true
+cd /Users/kristineestigoy/Desktop/mentor-library && git pull --quiet 2>/dev/null || true
 ```
 
 ### 2. Load Notion Token
@@ -91,7 +91,7 @@ Use **WebFetch** to pull the URL. Extract main article text. Strip navigation, a
 
 ### 5. Save as Markdown
 
-**Path:** `${CLAUDE_PLUGIN_ROOT}/{mentor-slug}/{source-type}/{title-slug}.md`
+**Path:** `/Users/kristineestigoy/Desktop/mentor-library/{mentor-slug}/{source-type}/{title-slug}.md`
 
 - `{mentor-slug}` = mentor name lowercased
 - `{source-type}` = `youtube`, `blog`, or `pdf`
@@ -117,7 +117,7 @@ date_synced: "ISO TIMESTAMP"
 ### 6. Push to GitHub
 
 ```bash
-cd "${CLAUDE_PLUGIN_ROOT}"
+cd /Users/kristineestigoy/Desktop/mentor-library
 git add {mentor-slug}/{source-type}/{title-slug}.md
 git commit -m "Add {Mentor} {source-type}: {Title}"
 git push
@@ -148,15 +148,6 @@ For each URL:
 [x] Saved as .md file
 [x] Pushed to GitHub
 [x] Notion status updated -> synced
-```
-
-For batch:
-```
-| # | Title | Mentor | Status |
-|---|-------|--------|--------|
-| 1 | [Title] | Hormozi | synced |
-| 2 | [Title] | Claude | processing... |
-| 3 | [Title] | Ethan | pending |
 ```
 
 ---

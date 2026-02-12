@@ -1,6 +1,13 @@
-| description | argument-hint |
-|---|---|
-| Sync pending URLs from Notion into the mentor knowledge base. Extracts YouTube transcripts and blog posts, saves as markdown, pushes to GitHub. | (no arguments needed) |
+---
+description: Sync pending URLs from Notion into the mentor knowledge base. Extracts YouTube transcripts and blog posts, saves as markdown, pushes to GitHub.
+allowed-tools:
+  - Bash
+  - Read
+  - Write
+  - Glob
+  - Grep
+  - WebFetch
+---
 
 # /sync-mentor
 
@@ -8,10 +15,10 @@ Process approved URLs from Notion: extract content, save as markdown, push to Gi
 
 ## Notion Database
 - **Database ID:** `3026ed85-e90a-814d-96e8-e35f0b8fae89`
-- **API Token:** Read `NOTION_API_TOKEN` from `/Users/kristineestigoy/Desktop/Mentors Skills/.env`
+- **API Token:** Read `NOTION_API_TOKEN` from `~/.env` or from the environment
 
 ## GitHub Repository
-- **Local clone:** The repo root (where this command lives)
+- **Plugin root:** `${CLAUDE_PLUGIN_ROOT}`
 - **Remote:** `upclicklabs/mentor-library`
 
 ## Mentors
@@ -29,7 +36,7 @@ Process approved URLs from Notion: extract content, save as markdown, push to Gi
 ### 1. Sync Repo
 
 ```bash
-cd "$(git rev-parse --show-toplevel)" && git pull --quiet 2>/dev/null || true
+cd "${CLAUDE_PLUGIN_ROOT}" && git pull --quiet 2>/dev/null || true
 ```
 
 ### 2. Load Notion Token
@@ -50,7 +57,7 @@ curl -s --max-time 15 -X POST "https://api.notion.com/v1/databases/3026ed85-e90a
 
 Extract from each entry: **URL**, **Mentor**, **Source Type**, **Page ID**.
 
-If no pending entries, tell user: "No pending URLs in Notion. Use `/research-mentor [Mentor] [topic]` to find content first."
+If no pending entries, tell user: "No pending URLs in Notion. Use `/mentor-skills:research-mentor [Mentor] [topic]` to find content first."
 
 ### 4. Extract Content (for each URL)
 
@@ -84,7 +91,7 @@ Use **WebFetch** to pull the URL. Extract main article text. Strip navigation, a
 
 ### 5. Save as Markdown
 
-**Path:** `{repo-root}/{mentor-slug}/{source-type}/{title-slug}.md`
+**Path:** `${CLAUDE_PLUGIN_ROOT}/{mentor-slug}/{source-type}/{title-slug}.md`
 
 - `{mentor-slug}` = mentor name lowercased
 - `{source-type}` = `youtube`, `blog`, or `pdf`
@@ -110,7 +117,7 @@ date_synced: "ISO TIMESTAMP"
 ### 6. Push to GitHub
 
 ```bash
-cd "$(git rev-parse --show-toplevel)"
+cd "${CLAUDE_PLUGIN_ROOT}"
 git add {mentor-slug}/{source-type}/{title-slug}.md
 git commit -m "Add {Mentor} {source-type}: {Title}"
 git push
@@ -140,7 +147,7 @@ For each URL:
 [x] Content extracted
 [x] Saved as .md file
 [x] Pushed to GitHub
-[x] Notion status updated → synced
+[x] Notion status updated -> synced
 ```
 
 For batch:
@@ -162,13 +169,13 @@ For batch:
 | Web fetch fails | Set status "error" in Notion |
 | Git push fails | Set status "error", show git error to user |
 | Notion API fails | Retry once, then alert user |
-| No pending URLs | Tell user to run `/research-mentor` first |
+| No pending URLs | Tell user to run `/mentor-skills:research-mentor` first |
 
 ---
 
 ## Rules
 
-1. **Read from Notion, write to GitHub.** Never create Notion entries — that's `/research-mentor`'s job.
+1. **Read from Notion, write to GitHub.** Never create Notion entries — that's `/mentor-skills:research-mentor`'s job.
 2. **Always update Notion status** after processing (synced or error).
 3. **One commit per file.** Don't batch commits.
 4. **Clean formatting.** Transcripts should be readable paragraphs, not raw dumps.

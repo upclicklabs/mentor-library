@@ -1,6 +1,11 @@
-| description | argument-hint |
-|---|---|
-| Find and curate content from a mentor on a specific topic. Searches YouTube, blogs, and podcasts, then saves approved URLs to Notion for syncing. | [Mentor] [topic] |
+---
+description: Find and curate content from a mentor on a specific topic. Searches YouTube, blogs, and podcasts, then saves approved URLs to Notion for syncing.
+argument-hint: "[Mentor] [topic]"
+allowed-tools:
+  - Bash
+  - WebSearch
+  - WebFetch
+---
 
 # /research-mentor
 
@@ -25,9 +30,9 @@ Search for high-quality content from a mentor and add approved URLs to the Notio
 
 ### 1. Parse the Request
 
-Extract the **mentor name** and **topic** from the user's input.
+Extract the **mentor name** and **topic** from `$ARGUMENTS`.
 
-Example: `/research-mentor Hormozi lead generation` → Mentor: Hormozi, Topic: lead generation
+Example: `/mentor-skills:research-mentor Hormozi lead generation` -> Mentor: Hormozi, Topic: lead generation
 
 If no mentor specified, ask. If no topic specified, ask.
 
@@ -43,17 +48,17 @@ For blogs/articles:
 - `"{Mentor full name}" {topic} site:{mentor-specific-site}`
 
 Mentor-specific sites:
-- Hormozi → `acquisition.com`
-- Ethan → relevant AEO/SEO blogs
-- Chris → `linkedin.com`
-- Claude → `anthropic.com`, `docs.anthropic.com`
+- Hormozi -> `acquisition.com`
+- Ethan -> relevant AEO/SEO blogs
+- Chris -> `linkedin.com`
+- Claude -> `anthropic.com`, `docs.anthropic.com`
 
 ### 3. Present Results for Approval
 
 Show findings in this format:
 
 ```
-## Research Results: [Mentor] — [Topic]
+## Research Results: [Mentor] -- [Topic]
 
 | # | Title | Type | URL |
 |---|-------|------|-----|
@@ -96,10 +101,10 @@ After adding to Notion:
 
 ```
 Added [X] URLs to Notion with status "pending":
-- [Title 1] → Hormozi / YouTube
-- [Title 2] → Hormozi / Blog
+- [Title 1] -> Hormozi / YouTube
+- [Title 2] -> Hormozi / Blog
 
-Run `/sync-mentor` to extract content and push to GitHub.
+Run `/mentor-skills:sync-mentor` to extract content and push to GitHub.
 ```
 
 ---
@@ -123,7 +128,7 @@ Run `/sync-mentor` to extract content and push to GitHub.
 ## Rules
 
 1. **Always present for approval.** Never add to Notion without user saying "approve."
-2. **Write to Notion only.** This skill creates Notion entries. `/sync-mentor` handles extraction and GitHub.
+2. **Write to Notion only.** This skill creates Notion entries. `/mentor-skills:sync-mentor` handles extraction and GitHub.
 3. **Check for duplicates.** Before adding, query Notion to see if the URL already exists.
 4. **Set status to "pending."** Every new entry starts as pending.
 5. **Be specific in searches.** Use mentor's full name in quotes for accurate results.

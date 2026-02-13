@@ -6,7 +6,7 @@ description: Sync pending URLs from Notion — extract YouTube transcripts and b
 
 > If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](../CONNECTORS.md).
 
-Process approved URLs from Notion: extract content, save as markdown, push to GitHub.
+Process approved URLs from Notion: extract content, save as markdown, push to GitHub repo `upclicklabs/mentor-library`.
 
 ## Trigger
 
@@ -20,26 +20,29 @@ No inputs required. The command automatically queries Notion for all pending URL
 
 **Try Notion MCP tools first.** If MCP fails (Zod validation errors, serialization errors, or any tool-level error), **fall back to curl** using the commands below. Do not ask the user — just switch to curl silently and continue.
 
+## Notion Database
+- **Database ID:** `3026ed85-e90a-814d-96e8-e35f0b8fae89`
+
+## GitHub Repository
+- **Repo:** `upclicklabs/mentor-library`
+
+## Mentors
+| Mentor | Folder |
+|--------|--------|
+| Hormozi | `hormozi/` |
+| Ethan | `ethan/` |
+| Chris | `chris/` |
+| Claude | `claude/` |
+
 ## Process
 
-### 1. Sync Repo
+### 1. Query Notion for Pending URLs
 
-```bash
-cd /Users/kristineestigoy/Desktop/mentor-library && git pull --quiet 2>/dev/null || true
-```
-
-### 2. Load Notion Token
-
-```bash
-NOTION_TOKEN=$(grep NOTION_API_TOKEN /Users/kristineestigoy/Desktop/mentor-library/.env | cut -d= -f2)
-```
-
-### 3. Query Notion for Pending URLs
-
-**MCP first:** Use the Notion MCP `notion-search` or `notion-fetch` tool to query the database for entries with status "pending".
+**MCP first:** Use the Notion MCP `notion-fetch` tool with database ID `3026ed85-e90a-814d-96e8-e35f0b8fae89` to query for entries with status "pending".
 
 **Curl fallback** (if MCP fails):
 ```bash
+NOTION_TOKEN=$(grep NOTION_API_TOKEN .env 2>/dev/null || echo "")
 curl -s --max-time 15 -X POST "https://api.notion.com/v1/databases/3026ed85-e90a-814d-96e8-e35f0b8fae89/query" \
   -H "Authorization: Bearer $NOTION_TOKEN" \
   -H "Content-Type: application/json" \
@@ -51,7 +54,7 @@ Extract from each entry: **URL**, **Mentor**, **Source Type**, **Page ID**.
 
 If no pending entries, tell user: "No pending URLs in Notion. Use `/research-mentor [Mentor] [topic]` to find content first."
 
-### 4. Extract Content (for each URL)
+### 2. Extract Content (for each URL)
 
 #### YouTube (URL contains youtube.com or youtu.be)
 
@@ -81,15 +84,15 @@ for snippet in transcript:
 
 Fetch the URL content. Extract main article text. Strip navigation, ads, sidebars. Preserve headings, paragraphs, lists, formatting. Convert to clean markdown.
 
-### 5. Save as Markdown
+### 3. Save as Markdown and Push to GitHub
 
-**Path:** `/Users/kristineestigoy/Desktop/mentor-library/{mentor-slug}/{source-type}/{title-slug}.md`
+Create the markdown file and push it to the `upclicklabs/mentor-library` repo.
+
+**File path in repo:** `{mentor-slug}/{source-type}/{title-slug}.md`
 
 - `{mentor-slug}` = mentor name lowercased (hormozi, ethan, chris, claude)
 - `{source-type}` = `youtube`, `blog`, or `pdf`
 - `{title-slug}` = title lowercased, spaces to hyphens, max 80 chars, URL-safe
-
-Create directories if needed: `mkdir -p {path}`
 
 **File format:**
 ```markdown
@@ -106,16 +109,22 @@ date_synced: "ISO TIMESTAMP"
 [Clean extracted content here...]
 ```
 
-### 6. Push to GitHub
-
+**To push to GitHub**, use the GitHub API:
 ```bash
-cd /Users/kristineestigoy/Desktop/mentor-library
+gh api repos/upclicklabs/mentor-library/contents/{mentor-slug}/{source-type}/{title-slug}.md \
+  -X PUT \
+  -f message="Add {Mentor} {source-type}: {Title}" \
+  -f content="$(base64 < file.md)"
+```
+
+Or if local git is available:
+```bash
 git add {mentor-slug}/{source-type}/{title-slug}.md
 git commit -m "Add {Mentor} {source-type}: {Title}"
 git push
 ```
 
-### 7. Update Notion Status
+### 4. Update Notion Status
 
 **MCP first:** Use the Notion MCP `notion-update-page` tool to update the page status to "synced" and set the title.
 

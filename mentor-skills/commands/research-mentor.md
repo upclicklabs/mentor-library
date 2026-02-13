@@ -33,6 +33,9 @@ If no mentor specified, ask. If no topic specified, ask.
 
 **Try Notion MCP tools first.** If MCP fails (Zod validation errors, serialization errors, or any tool-level error), **fall back to curl** using the commands below. Do not ask the user — just switch to curl silently and continue.
 
+## Notion Database
+- **Database ID:** `3026ed85-e90a-814d-96e8-e35f0b8fae89`
+
 ## Process
 
 ### 1. Search for Content
@@ -73,12 +76,12 @@ Reply with:
 
 ### 3. Add Approved URLs to Notion
 
-**MCP first:** Use the Notion MCP `notion-create-pages` tool to create a page in database `3026ed85-e90a-814d-96e8-e35f0b8fae89` with the properties below.
+**MCP first:** Use the Notion MCP `notion-create-pages` tool to create a page in database `3026ed85-e90a-814d-96e8-e35f0b8fae89` with properties: Title, URL, Mentor, Source Type, Status (pending).
 
 **Curl fallback** (if MCP fails):
 
 ```bash
-NOTION_TOKEN=$(grep NOTION_API_TOKEN /Users/kristineestigoy/Desktop/mentor-library/.env | cut -d= -f2)
+NOTION_TOKEN=$(grep NOTION_API_TOKEN .env 2>/dev/null || echo "")
 
 curl -s --max-time 15 -X POST "https://api.notion.com/v1/pages" \
   -H "Authorization: Bearer $NOTION_TOKEN" \

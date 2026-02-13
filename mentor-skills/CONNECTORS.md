@@ -15,8 +15,8 @@ Plugin files use `~~category` as a placeholder for whatever tool the user connec
 
 | Tool | What it does | Setup |
 |------|-------------|-------|
-| **Notion API** | Stores mentor URLs with status (pending/synced/error) | Add `NOTION_API_TOKEN` to `/Users/kristineestigoy/Desktop/mentor-library/.env` |
-| **GitHub** | Stores extracted transcripts as markdown files | Clone `upclicklabs/mentor-library` to `/Users/kristineestigoy/Desktop/mentor-library` |
+| **Notion** | Stores mentor URLs with status (pending/synced/error) | Connect Notion in Cowork, or provide `NOTION_API_TOKEN` in `.env` for curl fallback |
+| **GitHub** | Stores extracted transcripts as markdown files | Repo: `upclicklabs/mentor-library` (public) |
 | **Python** | Extracts YouTube transcripts | `pip3 install youtube-transcript-api` |
 
 ## Notion Database

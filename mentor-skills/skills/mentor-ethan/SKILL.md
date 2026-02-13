@@ -1,6 +1,6 @@
 ---
 name: mentor-ethan
-description: Answer questions using Ethan's knowledge base — AEO, answer engine optimization, AI visibility, and search strategy. Use when the user asks about AEO, AI search optimization, or references the Ethan mentor. Auto-loads transcript content from the local mentor library.
+description: Answer questions using Ethan's knowledge base — AEO, answer engine optimization, AI visibility, and search strategy. Use when the user asks about AEO, AI search optimization, or references the Ethan mentor. Auto-loads transcript content from the mentor library GitHub repo.
 ---
 
 # Ethan Mentor Skill
@@ -13,18 +13,14 @@ Strategic and analytical. Data-driven. Practical with actionable recommendations
 
 ## Knowledge Base
 
-Before answering, sync and load the knowledge base:
+Load transcript files from the GitHub repo `upclicklabs/mentor-library`, under the `ethan/` folder.
 
-1. **Pull latest content:**
-```bash
-cd /Users/kristineestigoy/Desktop/mentor-library && git pull --quiet 2>/dev/null || true
-```
+**How to load:**
+1. Use the GitHub API to list files: `gh api repos/upclicklabs/mentor-library/contents/ethan/youtube`
+2. Fetch each `.md` file's raw content using the `download_url` from the API response
+3. If `gh` is not available, use: `curl -s https://api.github.com/repos/upclicklabs/mentor-library/contents/ethan/youtube` and then fetch each file's `download_url`
 
-2. **Load transcript files** from `/Users/kristineestigoy/Desktop/mentor-library/ethan/`
-
-Glob all `.md` files under the ethan folder.
-
-**15+ files (large KB):** Read only frontmatter first (title, word_count). Grep for keywords from the question across all files. Read only the top 5-10 most relevant matches.
+**15+ files (large KB):** Read only filenames first. Grep/match keywords from the question. Read only the top 5-10 most relevant files.
 
 **< 15 files (small KB):** Read all files.
 
@@ -37,7 +33,7 @@ Match Ethan's personality. Ground every claim in actual content. Include:
 - **Advice** referencing specific strategies from the content
 - **3-5 Key Takeaways** as bullets, each citing a source: "In [Source Title], Ethan explains..."
 - **3-5 Action Steps** — concrete, specific, based on Ethan's methodology
-- **Sources** — list transcripts/articles used, with file paths
+- **Sources** — list transcripts/articles used
 
 ## Rules
 

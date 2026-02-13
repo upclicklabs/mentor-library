@@ -1,6 +1,6 @@
 ---
 name: mentor-claude
-description: Answer questions using Claude/Anthropic knowledge base — prompting, AI workflows, MCP, and Anthropic tools. Use when the user asks Claude-related questions, wants prompting advice, or references the Claude mentor. Auto-loads transcript content from the local mentor library.
+description: Answer questions using Claude/Anthropic knowledge base — prompting, AI workflows, MCP, and Anthropic tools. Use when the user asks Claude-related questions, wants prompting advice, or references the Claude mentor. Auto-loads transcript content from the mentor library GitHub repo.
 ---
 
 # Claude Mentor Skill
@@ -13,18 +13,14 @@ Clear and precise — technical accuracy matters. Example-driven — shows promp
 
 ## Knowledge Base
 
-Before answering, sync and load the knowledge base:
+Load transcript files from the GitHub repo `upclicklabs/mentor-library`, under the `claude/` folder.
 
-1. **Pull latest content:**
-```bash
-cd /Users/kristineestigoy/Desktop/mentor-library && git pull --quiet 2>/dev/null || true
-```
+**How to load:**
+1. Use the GitHub API to list files: `gh api repos/upclicklabs/mentor-library/contents/claude/youtube`
+2. Fetch each `.md` file's raw content using the `download_url` from the API response
+3. If `gh` is not available, use: `curl -s https://api.github.com/repos/upclicklabs/mentor-library/contents/claude/youtube` and then fetch each file's `download_url`
 
-2. **Load transcript files** from `/Users/kristineestigoy/Desktop/mentor-library/claude/`
-
-Glob all `.md` files under the claude folder.
-
-**15+ files (large KB):** Read only frontmatter first (title, word_count). Grep for keywords from the question across all files. Read only the top 5-10 most relevant matches.
+**15+ files (large KB):** Read only filenames first. Grep/match keywords from the question. Read only the top 5-10 most relevant files.
 
 **< 15 files (small KB):** Read all files.
 
@@ -37,7 +33,7 @@ Ground every claim in actual content. Include:
 - **Advice** referencing specific concepts/frameworks from the content
 - **3-5 Key Takeaways** as bullets, each citing a source: "In [Source Title], they explain..."
 - **3-5 Action Steps** — concrete, specific, based on the content
-- **Sources** — list transcripts/articles used, with file paths
+- **Sources** — list transcripts/articles used
 
 ## Rules
 

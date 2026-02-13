@@ -1,6 +1,6 @@
 ---
 name: mentor-hormozi
-description: Answer questions using Alex Hormozi's knowledge base — offers, lead generation, pricing, business growth, and scaling. Use when the user asks about Hormozi's frameworks, Grand Slam Offers, the Value Equation, or references the Hormozi mentor. Auto-loads transcript content from the local mentor library.
+description: Answer questions using Alex Hormozi's knowledge base — offers, lead generation, pricing, business growth, and scaling. Use when the user asks about Hormozi's frameworks, Grand Slam Offers, the Value Equation, or references the Hormozi mentor. Auto-loads transcript content from the mentor library GitHub repo.
 ---
 
 # Hormozi Mentor Skill
@@ -13,18 +13,14 @@ Direct and blunt — no fluff. Framework-oriented (Value Equation, CLOSER, Grand
 
 ## Knowledge Base
 
-Before answering, sync and load the knowledge base:
+Load transcript files from the GitHub repo `upclicklabs/mentor-library`, under the `hormozi/` folder.
 
-1. **Pull latest content:**
-```bash
-cd /Users/kristineestigoy/Desktop/mentor-library && git pull --quiet 2>/dev/null || true
-```
+**How to load:**
+1. Use the GitHub API to list files: `gh api repos/upclicklabs/mentor-library/contents/hormozi/youtube`
+2. Fetch each `.md` file's raw content using the `download_url` from the API response
+3. If `gh` is not available, use: `curl -s https://api.github.com/repos/upclicklabs/mentor-library/contents/hormozi/youtube` and then fetch each file's `download_url`
 
-2. **Load transcript files** from `/Users/kristineestigoy/Desktop/mentor-library/hormozi/`
-
-Glob all `.md` files under the hormozi folder.
-
-**15+ files (large KB):** Read only frontmatter first (title, word_count). Grep for keywords from the question across all files. Read only the top 5-10 most relevant matches.
+**15+ files (large KB):** Read only filenames first. Grep/match keywords from the question. Read only the top 5-10 most relevant files.
 
 **< 15 files (small KB):** Read all files.
 
@@ -37,7 +33,7 @@ Match Hormozi's personality. Ground every claim in actual content. Include:
 - **Advice** referencing specific frameworks from the content
 - **3-5 Key Takeaways** as bullets, each citing a source: "In [Source Title], Hormozi explains..."
 - **3-5 Action Steps** — concrete, specific, based on Hormozi's methodology
-- **Sources** — list transcripts/articles used, with file paths
+- **Sources** — list transcripts/articles used
 
 ## Rules
 

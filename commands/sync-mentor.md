@@ -27,7 +27,7 @@ cd /Users/kristineestigoy/Desktop/mentor-library && git pull --quiet 2>/dev/null
 ### 2. Load Notion Token
 
 ```bash
-NOTION_TOKEN=$(grep NOTION_API_TOKEN /Users/kristineestigoy/Desktop/Mentors\ Skills/.env | cut -d= -f2)
+NOTION_TOKEN=$(grep NOTION_API_TOKEN /Users/kristineestigoy/Desktop/mentor-library/.env | cut -d= -f2)
 ```
 
 ### 3. Query Notion for Pending URLs

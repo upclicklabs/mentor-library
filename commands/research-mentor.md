@@ -72,7 +72,7 @@ Reply with:
 For each approved URL, create a Notion page in the ~~knowledge base:
 
 ```bash
-NOTION_TOKEN=$(grep NOTION_API_TOKEN /Users/kristineestigoy/Desktop/Mentors\ Skills/.env | cut -d= -f2)
+NOTION_TOKEN=$(grep NOTION_API_TOKEN /Users/kristineestigoy/Desktop/mentor-library/.env | cut -d= -f2)
 
 curl -s --max-time 15 -X POST "https://api.notion.com/v1/pages" \
   -H "Authorization: Bearer $NOTION_TOKEN" \

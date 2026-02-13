@@ -1,35 +1,20 @@
 ---
-description: Sync pending URLs from Notion into the mentor knowledge base. Extracts YouTube transcripts and blog posts, saves as markdown, pushes to GitHub.
-allowed-tools:
-  - Bash
-  - Read
-  - Write
-  - Glob
-  - Grep
-  - WebFetch
+description: Sync pending URLs from Notion — extract YouTube transcripts and blog posts, save as markdown, push to GitHub
 ---
 
-# /sync-mentor
+# Sync Mentor
+
+> If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](../CONNECTORS.md).
 
 Process approved URLs from Notion: extract content, save as markdown, push to GitHub.
 
-## Notion Database
-- **Database ID:** `3026ed85-e90a-814d-96e8-e35f0b8fae89`
-- **API Token:** Read `NOTION_API_TOKEN` from `/Users/kristineestigoy/Desktop/Mentors Skills/.env`
+## Trigger
 
-## GitHub Repository
-- **Local clone:** `/Users/kristineestigoy/Desktop/mentor-library`
-- **Remote:** `upclicklabs/mentor-library`
+User runs `/sync-mentor` or asks to sync, process, or extract pending mentor content.
 
-## Mentors
-| Mentor | Folder |
-|--------|--------|
-| Hormozi | `hormozi/` |
-| Ethan | `ethan/` |
-| Chris | `chris/` |
-| Claude | `claude/` |
+## Inputs
 
----
+No inputs required. The command automatically queries Notion for all pending URLs.
 
 ## Process
 
@@ -57,7 +42,7 @@ curl -s --max-time 15 -X POST "https://api.notion.com/v1/databases/3026ed85-e90a
 
 Extract from each entry: **URL**, **Mentor**, **Source Type**, **Page ID**.
 
-If no pending entries, tell user: "No pending URLs in Notion. Use `/mentor-skills:research-mentor [Mentor] [topic]` to find content first."
+If no pending entries, tell user: "No pending URLs in Notion. Use `/research-mentor [Mentor] [topic]` to find content first."
 
 ### 4. Extract Content (for each URL)
 
@@ -87,13 +72,13 @@ for snippet in transcript:
 
 #### Blogs/Articles
 
-Use **WebFetch** to pull the URL. Extract main article text. Strip navigation, ads, sidebars. Preserve headings, paragraphs, lists, formatting. Convert to clean markdown.
+Fetch the URL content. Extract main article text. Strip navigation, ads, sidebars. Preserve headings, paragraphs, lists, formatting. Convert to clean markdown.
 
 ### 5. Save as Markdown
 
 **Path:** `/Users/kristineestigoy/Desktop/mentor-library/{mentor-slug}/{source-type}/{title-slug}.md`
 
-- `{mentor-slug}` = mentor name lowercased
+- `{mentor-slug}` = mentor name lowercased (hormozi, ethan, chris, claude)
 - `{source-type}` = `youtube`, `blog`, or `pdf`
 - `{title-slug}` = title lowercased, spaces to hyphens, max 80 chars, URL-safe
 
@@ -136,11 +121,9 @@ curl -s --max-time 15 -X PATCH "https://api.notion.com/v1/pages/PAGE_ID" \
 
 **On failure:** Set status to `error`.
 
----
+## Output Format
 
-## Progress Display
-
-For each URL:
+For each URL processed:
 ```
 ## Processing: [Title]
 [x] Retrieved from Notion
@@ -150,24 +133,16 @@ For each URL:
 [x] Notion status updated -> synced
 ```
 
----
-
 ## Error Handling
 
 | Error | Action |
 |-------|--------|
-| YouTube transcript fails | Try WebFetch fallback, then set "error" in Notion |
+| YouTube transcript fails | Try web fetch fallback, then set "error" in Notion |
 | Web fetch fails | Set status "error" in Notion |
 | Git push fails | Set status "error", show git error to user |
 | Notion API fails | Retry once, then alert user |
-| No pending URLs | Tell user to run `/mentor-skills:research-mentor` first |
+| No pending URLs | Tell user to run `/research-mentor` first |
 
----
+## After Sync
 
-## Rules
-
-1. **Read from Notion, write to GitHub.** Never create Notion entries — that's `/mentor-skills:research-mentor`'s job.
-2. **Always update Notion status** after processing (synced or error).
-3. **One commit per file.** Don't batch commits.
-4. **Clean formatting.** Transcripts should be readable paragraphs, not raw dumps.
-5. **Show progress.** Display the tracker for every URL processed.
+Tell the user how many URLs were processed and their status. Offer: "Would you like me to sync more content, or ask a mentor a question?"

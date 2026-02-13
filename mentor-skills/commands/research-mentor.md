@@ -29,6 +29,10 @@ If no mentor specified, ask. If no topic specified, ask.
 | **Chris** | LinkedIn strategy, content | YouTube, LinkedIn posts, blogs |
 | **Claude** | Prompting, AI workflows, MCP | YouTube, Anthropic docs, blogs |
 
+## Notion API Strategy
+
+**Try Notion MCP tools first.** If MCP fails (Zod validation errors, serialization errors, or any tool-level error), **fall back to curl** using the commands below. Do not ask the user — just switch to curl silently and continue.
+
 ## Process
 
 ### 1. Search for Content
@@ -69,7 +73,9 @@ Reply with:
 
 ### 3. Add Approved URLs to Notion
 
-For each approved URL, create a Notion page in the ~~knowledge base:
+**MCP first:** Use the Notion MCP `notion-create-pages` tool to create a page in database `3026ed85-e90a-814d-96e8-e35f0b8fae89` with the properties below.
+
+**Curl fallback** (if MCP fails):
 
 ```bash
 NOTION_TOKEN=$(grep NOTION_API_TOKEN /Users/kristineestigoy/Desktop/mentor-library/.env | cut -d= -f2)
@@ -92,7 +98,18 @@ curl -s --max-time 15 -X POST "https://api.notion.com/v1/pages" \
 
 ### 4. Check for Duplicates
 
-Before adding, query Notion to see if the URL already exists. Skip duplicates and tell the user.
+**MCP first:** Use Notion MCP `notion-search` or `notion-fetch` to check if the URL already exists in the database.
+
+**Curl fallback** (if MCP fails):
+```bash
+curl -s --max-time 15 -X POST "https://api.notion.com/v1/databases/3026ed85-e90a-814d-96e8-e35f0b8fae89/query" \
+  -H "Authorization: Bearer $NOTION_TOKEN" \
+  -H "Content-Type: application/json" \
+  -H "Notion-Version: 2022-06-28" \
+  -d '{"filter":{"property":"URL","url":{"equals":"CONTENT_URL"}}}'
+```
+
+Skip duplicates and tell the user.
 
 ## Output Format
 

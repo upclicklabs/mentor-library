@@ -16,6 +16,10 @@ User runs `/sync-mentor` or asks to sync, process, or extract pending mentor con
 
 No inputs required. The command automatically queries Notion for all pending URLs.
 
+## Notion API Strategy
+
+**Try Notion MCP tools first.** If MCP fails (Zod validation errors, serialization errors, or any tool-level error), **fall back to curl** using the commands below. Do not ask the user — just switch to curl silently and continue.
+
 ## Process
 
 ### 1. Sync Repo
@@ -32,6 +36,9 @@ NOTION_TOKEN=$(grep NOTION_API_TOKEN /Users/kristineestigoy/Desktop/mentor-libra
 
 ### 3. Query Notion for Pending URLs
 
+**MCP first:** Use the Notion MCP `notion-search` or `notion-fetch` tool to query the database for entries with status "pending".
+
+**Curl fallback** (if MCP fails):
 ```bash
 curl -s --max-time 15 -X POST "https://api.notion.com/v1/databases/3026ed85-e90a-814d-96e8-e35f0b8fae89/query" \
   -H "Authorization: Bearer $NOTION_TOKEN" \
@@ -109,6 +116,10 @@ git push
 ```
 
 ### 7. Update Notion Status
+
+**MCP first:** Use the Notion MCP `notion-update-page` tool to update the page status to "synced" and set the title.
+
+**Curl fallback** (if MCP fails):
 
 **On success:**
 ```bash

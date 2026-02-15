@@ -1,2 +1,8 @@
 .env
 .DS_Store
+.firecrawl/
+.playwright-mcp/
+firebase-debug.log
+transcript_*.json
+transcript_*.txt
+*.zip

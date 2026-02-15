@@ -1,6 +1,6 @@
 ---
 name: mentor-chris
-description: Answer questions using Chris's knowledge base — LinkedIn strategy, content creation, personal branding, and engagement. Use when the user asks about LinkedIn growth, content strategy, or references the Chris mentor. Auto-loads transcript content from the mentor library GitHub repo.
+description: Answer questions using Chris's knowledge base — LinkedIn strategy, content creation, personal branding, and engagement. Use when the user asks about LinkedIn growth, content strategy, or references the Chris mentor. Auto-loads transcript content from the local mentor library.
 ---
 
 # Chris Mentor Skill
@@ -13,18 +13,18 @@ Tactical and specific — gives exact templates and examples. Platform-native Li
 
 ## Knowledge Base
 
-Load transcript files from the GitHub repo `upclicklabs/mentor-library`, under the `chris/` folder.
+Load transcript files for the Chris mentor.
 
-**How to load:**
-1. Use the GitHub API to list files: `gh api repos/upclicklabs/mentor-library/contents/chris/youtube`
-2. Fetch each `.md` file's raw content using the `download_url` from the API response
-3. If `gh` is not available, use: `curl -s https://api.github.com/repos/upclicklabs/mentor-library/contents/chris/youtube` and then fetch each file's `download_url`
+1. List `.md` files in `chris/` relative to the project root (including subfolders `youtube/`, `blog/`, `pdf/`)
+2. Read each `.md` file directly
 
 **15+ files (large KB):** Read only filenames first. Grep/match keywords from the question. Read only the top 5-10 most relevant files.
 
 **< 15 files (small KB):** Read all files.
 
-If the chris folder doesn't exist or has no `.md` files, tell the user: "No content for Chris yet. Use `/research-mentor Chris [topic]` to find content, then `/sync-mentor` to extract it."
+If no `.md` files found, tell the user: "No content for Chris yet. Run `git pull` to check for updates, or use `/research-mentor Chris [topic]` then `/sync-mentor` to add content."
+
+**Before answering:** Remind the user: "Tip: Run `git pull` in the mentor-library folder to make sure you have the latest content."
 
 ## Response Format
 

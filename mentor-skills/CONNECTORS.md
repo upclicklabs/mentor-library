@@ -9,14 +9,13 @@ Plugin files use `~~category` as a placeholder for whatever tool the user connec
 | Category | Placeholder | Included servers | Other options |
 |----------|-------------|-----------------|---------------|
 | Knowledge base | `~~knowledge base` | Notion | Confluence, Airtable |
-| Version control | `~~version control` | GitHub | GitLab, Bitbucket |
 
 ## Required setup
 
 | Tool | What it does | Setup |
 |------|-------------|-------|
 | **Notion** | Stores mentor URLs with status (pending/synced/error) | Connect Notion in Cowork, or provide `NOTION_API_TOKEN` in `.env` for curl fallback |
-| **GitHub** | Stores extracted transcripts as markdown files | Repo: `upclicklabs/mentor-library` (public) |
+| **GitHub** | Stores mentor content as markdown files | Repo: `upclicklabs/mentor-library`. Clone the repo to access locally. Sync pushes via git. |
 | **Python** | Extracts YouTube transcripts | `pip3 install youtube-transcript-api` |
 
 ## Notion Database

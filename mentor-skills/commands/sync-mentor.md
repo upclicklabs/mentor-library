@@ -1,12 +1,12 @@
 ---
-description: Sync pending URLs from Notion — extract YouTube transcripts and blog posts, save as markdown, push to GitHub
+description: Sync pending URLs from Notion — extract YouTube transcripts, blog posts, and PDFs, save as markdown to the mentor-library repo
 ---
 
 # Sync Mentor
 
 > If you see unfamiliar placeholders or need to check which tools are connected, see [CONNECTORS.md](../CONNECTORS.md).
 
-Process approved URLs from Notion: extract content, save as markdown, push to GitHub repo `upclicklabs/mentor-library`.
+Process approved URLs from Notion: extract content, save as markdown to the mentor-library repo, and push to GitHub.
 
 ## Trigger
 
@@ -23,8 +23,9 @@ No inputs required. The command automatically queries Notion for all pending URL
 ## Notion Database
 - **Database ID:** `3026ed85-e90a-814d-96e8-e35f0b8fae89`
 
-## GitHub Repository
-- **Repo:** `upclicklabs/mentor-library`
+## Repo
+- **GitHub:** `upclicklabs/mentor-library`
+- **File paths are relative to the project root**
 
 ## Mentors
 | Mentor | Folder |
@@ -84,15 +85,28 @@ for snippet in transcript:
 
 Fetch the URL content. Extract main article text. Strip navigation, ads, sidebars. Preserve headings, paragraphs, lists, formatting. Convert to clean markdown.
 
-### 3. Save as Markdown and Push to GitHub
+#### PDFs (URL ends in .pdf or Source Type is "pdf")
 
-Create the markdown file and push it to the `upclicklabs/mentor-library` repo.
+1. Download the PDF:
+```bash
+curl -sL "PDF_URL" -o /tmp/mentor-pdf.pdf
+```
+2. Read the PDF using the Read tool (Claude can read PDFs natively)
+3. Extract the text content — preserve headings, structure, lists
+4. Convert to clean markdown
+5. Use the extracted title or filename as the content title
 
-**File path in repo:** `{mentor-slug}/{source-type}/{title-slug}.md`
+### 3. Save as Markdown
+
+Save the markdown file to the mentor-library repo.
+
+**File path:** `{mentor-slug}/{source-type}/{title-slug}.md` (relative to project root)
 
 - `{mentor-slug}` = mentor name lowercased (hormozi, ethan, chris, claude)
 - `{source-type}` = `youtube`, `blog`, or `pdf`
 - `{title-slug}` = title lowercased, spaces to hyphens, max 80 chars, URL-safe
+
+**Create subfolder if it doesn't exist** (e.g., `ethan/youtube/`).
 
 **File format:**
 ```markdown
@@ -109,18 +123,22 @@ date_synced: "ISO TIMESTAMP"
 [Clean extracted content here...]
 ```
 
-**To push to GitHub**, use the GitHub API:
+**Save using the Write tool** to write directly to the path relative to the project root.
+
+### 3b. Push to GitHub
+
+After all files are saved, commit and push so the content is available to all team members:
+
 ```bash
-gh api repos/upclicklabs/mentor-library/contents/{mentor-slug}/{source-type}/{title-slug}.md \
-  -X PUT \
-  -f message="Add {Mentor} {source-type}: {Title}" \
-  -f content="$(base64 < file.md)"
+git add {mentor-slug}/
+git commit -m "Add {Mentor} {source-type}: {Title}"
+git push
 ```
 
-Or if local git is available:
+If multiple files were synced, batch them into one commit:
 ```bash
-git add {mentor-slug}/{source-type}/{title-slug}.md
-git commit -m "Add {Mentor} {source-type}: {Title}"
+git add ethan/ hormozi/ chris/ claude/
+git commit -m "Sync {N} new mentor content files"
 git push
 ```
 
@@ -149,8 +167,8 @@ For each URL processed:
 [x] Retrieved from Notion
 [x] Content extracted
 [x] Saved as .md file
-[x] Pushed to GitHub
 [x] Notion status updated -> synced
+[x] Pushed to GitHub
 ```
 
 ## Error Handling
@@ -159,7 +177,7 @@ For each URL processed:
 |-------|--------|
 | YouTube transcript fails | Try web fetch fallback, then set "error" in Notion |
 | Web fetch fails | Set status "error" in Notion |
-| Git push fails | Set status "error", show git error to user |
+| File write fails | Set status "error", show error to user |
 | Notion API fails | Retry once, then alert user |
 | No pending URLs | Tell user to run `/research-mentor` first |
 

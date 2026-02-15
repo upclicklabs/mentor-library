@@ -1,6 +1,6 @@
 ---
 name: mentor-claude
-description: Answer questions using Claude/Anthropic knowledge base — prompting, AI workflows, MCP, and Anthropic tools. Use when the user asks Claude-related questions, wants prompting advice, or references the Claude mentor. Auto-loads transcript content from the mentor library GitHub repo.
+description: Answer questions using Claude/Anthropic knowledge base — prompting, AI workflows, MCP, and Anthropic tools. Use when the user asks Claude-related questions, wants prompting advice, or references the Claude mentor. Auto-loads transcript content from the local mentor library.
 ---
 
 # Claude Mentor Skill
@@ -13,18 +13,18 @@ Clear and precise — technical accuracy matters. Example-driven — shows promp
 
 ## Knowledge Base
 
-Load transcript files from the GitHub repo `upclicklabs/mentor-library`, under the `claude/` folder.
+Load transcript files for the Claude mentor.
 
-**How to load:**
-1. Use the GitHub API to list files: `gh api repos/upclicklabs/mentor-library/contents/claude/youtube`
-2. Fetch each `.md` file's raw content using the `download_url` from the API response
-3. If `gh` is not available, use: `curl -s https://api.github.com/repos/upclicklabs/mentor-library/contents/claude/youtube` and then fetch each file's `download_url`
+1. List `.md` files in `claude/` relative to the project root (including subfolders `youtube/`, `blog/`, `pdf/`)
+2. Read each `.md` file directly
 
 **15+ files (large KB):** Read only filenames first. Grep/match keywords from the question. Read only the top 5-10 most relevant files.
 
 **< 15 files (small KB):** Read all files.
 
-If the claude folder doesn't exist or has no `.md` files, tell the user: "No content for Claude yet. Use `/research-mentor Claude [topic]` to find content, then `/sync-mentor` to extract it."
+If no `.md` files found, tell the user: "No content for Claude yet. Run `git pull` to check for updates, or use `/research-mentor Claude [topic]` then `/sync-mentor` to add content."
+
+**Before answering:** Remind the user: "Tip: Run `git pull` in the mentor-library folder to make sure you have the latest content."
 
 ## Response Format
 

@@ -123,7 +123,7 @@ Added [X] URLs to Notion with status "pending":
 - [Title 1] -> Hormozi / YouTube
 - [Title 2] -> Hormozi / Blog
 
-Run `/sync-mentor` to extract content and push to GitHub.
+Run `/sync-mentor` to extract content and save to the mentor-library repo.
 ```
 
 ## Search Quality Guidelines

@@ -1,6 +1,6 @@
 ---
 name: mentor-hormozi
-description: Answer questions using Alex Hormozi's knowledge base — offers, lead generation, pricing, business growth, and scaling. Use when the user asks about Hormozi's frameworks, Grand Slam Offers, the Value Equation, or references the Hormozi mentor. Auto-loads transcript content from the mentor library GitHub repo.
+description: Answer questions using Alex Hormozi's knowledge base — offers, lead generation, pricing, business growth, and scaling. Use when the user asks about Hormozi's frameworks, Grand Slam Offers, the Value Equation, or references the Hormozi mentor. Auto-loads transcript content from the local mentor library.
 ---
 
 # Hormozi Mentor Skill
@@ -13,18 +13,18 @@ Direct and blunt — no fluff. Framework-oriented (Value Equation, CLOSER, Grand
 
 ## Knowledge Base
 
-Load transcript files from the GitHub repo `upclicklabs/mentor-library`, under the `hormozi/` folder.
+Load transcript files for the Hormozi mentor.
 
-**How to load:**
-1. Use the GitHub API to list files: `gh api repos/upclicklabs/mentor-library/contents/hormozi/youtube`
-2. Fetch each `.md` file's raw content using the `download_url` from the API response
-3. If `gh` is not available, use: `curl -s https://api.github.com/repos/upclicklabs/mentor-library/contents/hormozi/youtube` and then fetch each file's `download_url`
+1. List `.md` files in `hormozi/` relative to the project root (including subfolders `youtube/`, `blog/`, `pdf/`)
+2. Read each `.md` file directly
 
 **15+ files (large KB):** Read only filenames first. Grep/match keywords from the question. Read only the top 5-10 most relevant files.
 
 **< 15 files (small KB):** Read all files.
 
-If the hormozi folder doesn't exist or has no `.md` files, tell the user: "No content for Hormozi yet. Use `/research-mentor Hormozi [topic]` to find content, then `/sync-mentor` to extract it."
+If no `.md` files found, tell the user: "No content for Hormozi yet. Run `git pull` to check for updates, or use `/research-mentor Hormozi [topic]` then `/sync-mentor` to add content."
+
+**Before answering:** Remind the user: "Tip: Run `git pull` in the mentor-library folder to make sure you have the latest content."
 
 ## Response Format
 

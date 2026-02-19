@@ -34,6 +34,7 @@ No inputs required. The command automatically queries Notion for all pending URL
 | Ethan | `ethan/` |
 | Chris | `chris/` |
 | Claude | `claude/` |
+| Borris | `borris/` |
 
 ## Process
 

@@ -33,7 +33,7 @@ No inputs required. The command automatically queries Notion for all pending URL
 | Hormozi | `hormozi/` |
 | Ethan | `ethan/` |
 | Chris | `chris/` |
-| Claude | `claude/` |
+| Borris | `claude/` |
 
 ## Process
 
@@ -102,7 +102,7 @@ Save the markdown file to the mentor-library repo.
 
 **File path:** `{mentor-slug}/{source-type}/{title-slug}.md` (relative to project root)
 
-- `{mentor-slug}` = mentor name lowercased (hormozi, ethan, chris, claude)
+- `{mentor-slug}` = mentor name lowercased (hormozi, ethan, chris, claude for Borris)
 - `{source-type}` = `youtube`, `blog`, or `pdf`
 - `{title-slug}` = title lowercased, spaces to hyphens, max 80 chars, URL-safe
 
@@ -137,7 +137,7 @@ git push
 
 If multiple files were synced, batch them into one commit:
 ```bash
-git add ethan/ hormozi/ chris/ claude/
+git add ethan/ hormozi/ chris/ claude/  # claude/ folder = Borris mentor
 git commit -m "Sync {N} new mentor content files"
 git push
 ```

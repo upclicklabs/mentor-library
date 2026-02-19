@@ -15,7 +15,7 @@ User runs `/research-mentor` or asks to find, research, or discover content for 
 
 ## Inputs
 
-1. **Mentor** — one of: Hormozi, Ethan, Chris, Claude
+1. **Mentor** — one of: Hormozi, Ethan, Chris, Borris
 2. **Topic** — the subject to search for
 
 If no mentor specified, ask. If no topic specified, ask.
@@ -27,7 +27,7 @@ If no mentor specified, ask. If no topic specified, ask.
 | **Hormozi** | Offers, lead gen, business growth | YouTube, acquisition.com, podcasts |
 | **Ethan** | AEO, answer engine optimization | YouTube, blogs, industry articles |
 | **Chris** | LinkedIn strategy, content | YouTube, LinkedIn posts, blogs |
-| **Claude** | Prompting, AI workflows, MCP | YouTube, Anthropic docs, blogs |
+| **Borris** | Prompting, AI workflows, MCP | YouTube, Anthropic docs, blogs |
 
 ## Notion API Strategy
 
@@ -53,7 +53,7 @@ Mentor-specific sites:
 - Hormozi -> `acquisition.com`
 - Ethan -> relevant AEO/SEO blogs
 - Chris -> `linkedin.com`
-- Claude -> `anthropic.com`, `docs.anthropic.com`
+- Borris -> `anthropic.com`, `docs.anthropic.com`
 
 ### 2. Present Results for Approval
 

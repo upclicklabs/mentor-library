@@ -2,7 +2,7 @@
 title: "AI marketing Masterclass: From beginner to expert in 60 minutes"
 source_url: "https://youtu.be/fVUlrpaWNxg?si=DuKMuDfPDE5hgiW0"
 source_type: youtube
-mentor: "Claude"
+mentor: "Borris"
 date_synced: "2026-02-13T00:00:00Z"
 ---
 

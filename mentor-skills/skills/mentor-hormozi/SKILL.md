@@ -13,10 +13,12 @@ Direct and blunt — no fluff. Framework-oriented (Value Equation, CLOSER, Grand
 
 ## Knowledge Base
 
-Load transcript files for the Hormozi mentor.
+Load transcript files for the Hormozi mentor. Search these locations (first match wins):
 
-1. List `.md` files in `hormozi/` relative to the project root (including subfolders `youtube/`, `blog/`, `pdf/`)
-2. Read each `.md` file directly
+1. `~/mentor-library/hormozi/` (cloned by SessionStart hook or local checkout)
+2. `hormozi/` relative to the current project root (fallback if inside the mentor-library repo)
+
+List `.md` files in the matched directory (including subfolders `youtube/`, `blog/`, `pdf/`), then read them.
 
 **15+ files (large KB):** Read only filenames first. Grep/match keywords from the question. Read only the top 5-10 most relevant files.
 

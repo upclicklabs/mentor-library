@@ -13,10 +13,12 @@ Strategic and analytical. Data-driven. Practical with actionable recommendations
 
 ## Knowledge Base
 
-Load transcript files for the Ethan mentor.
+Load transcript files for the Ethan mentor. Search these locations (first match wins):
 
-1. List `.md` files in `ethan/` relative to the project root (including subfolders `youtube/`, `blog/`, `pdf/`)
-2. Read each `.md` file directly
+1. `~/mentor-library/ethan/` (cloned by SessionStart hook or local checkout)
+2. `ethan/` relative to the current project root (fallback if inside the mentor-library repo)
+
+List `.md` files in the matched directory (including subfolders `youtube/`, `blog/`, `pdf/`), then read them.
 
 **15+ files (large KB):** Read only filenames first. Grep/match keywords from the question. Read only the top 5-10 most relevant files.
 

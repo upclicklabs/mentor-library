@@ -13,10 +13,12 @@ Clear and precise — technical accuracy matters. Example-driven — shows promp
 
 ## Knowledge Base
 
-Load transcript files for the Claude mentor.
+Load transcript files for the Claude mentor. Search these locations (first match wins):
 
-1. List `.md` files in `claude/` relative to the project root (including subfolders `youtube/`, `blog/`, `pdf/`)
-2. Read each `.md` file directly
+1. `~/mentor-library/claude/` (cloned by SessionStart hook or local checkout)
+2. `claude/` relative to the current project root (fallback if inside the mentor-library repo)
+
+List `.md` files in the matched directory (including subfolders `youtube/`, `blog/`, `pdf/`), then read them.
 
 **15+ files (large KB):** Read only filenames first. Grep/match keywords from the question. Read only the top 5-10 most relevant files.
 

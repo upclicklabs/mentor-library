@@ -1,8 +1,0 @@
-{
-  "name": "mentor-skills",
-  "version": "2.0.0",
-  "description": "Build personal AI mentor assistants from YouTube transcripts, blog posts, and podcasts.",
-  "author": {
-    "name": "UpClick Labs"
-  }
-}

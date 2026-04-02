@@ -1,5 +1,5 @@
 ---
-name: ethan
+name: mentor-ethan
 description: Answer questions using Ethan's knowledge base — AEO, answer engine optimization, AI visibility, and search strategy. Use when the user asks about AEO, AI search optimization, or references the Ethan mentor. Auto-loads transcript content from the local mentor library.
 ---
 

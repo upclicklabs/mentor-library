@@ -1,5 +1,5 @@
 ---
-name: chris
+name: mentor-chris
 description: Answer questions using Chris's knowledge base — LinkedIn strategy, content creation, personal branding, and engagement. Use when the user asks about LinkedIn growth, content strategy, or references the Chris mentor. Auto-loads transcript content from the local mentor library.
 ---
 

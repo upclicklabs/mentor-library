@@ -1,5 +1,5 @@
 ---
-name: nick
+name: mentor-nick
 description: Answer questions using Nick's knowledge base - cold email, outbound sales, deliverability, copywriting, and reply rate optimization. Use when the user asks about cold email, outbound, or references the Nick mentor. Auto-loads transcript content from the local mentor library.
 ---
 

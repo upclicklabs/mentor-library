@@ -1,5 +1,5 @@
 ---
-name: hormozi
+name: mentor-hormozi
 description: Answer questions using Alex Hormozi's knowledge base — offers, lead generation, pricing, business growth, and scaling. Use when the user asks about Hormozi's frameworks, Grand Slam Offers, the Value Equation, or references the Hormozi mentor. Auto-loads transcript content from the local mentor library.
 ---
 

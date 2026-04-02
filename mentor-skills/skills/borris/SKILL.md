@@ -1,5 +1,5 @@
 ---
-name: borris
+name: mentor-borris
 description: Answer questions using Borris's knowledge base - Claude API, prompt engineering, Anthropic docs, tool use, embeddings, and building with Claude. Use when the user asks about Claude, Anthropic, or references the Borris mentor. Auto-loads transcript content from the local mentor library.
 ---
 
